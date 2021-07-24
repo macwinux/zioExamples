@@ -1,8 +1,6 @@
 
 ThisBuild / scalaVersion := "3.0.0"
-
-name := "zio-world"
-organization := "macwinux.scala"
+ThisBuild / organization := "macwinux.scala"
 version := "1.0"
 
 ThisBuild / scalacOptions ++=
@@ -17,4 +15,12 @@ ThisBuild / scalacOptions ++=
     "-Ysafe-init",
   ) ++ Seq("-rewrite", "-indent") ++ Seq("-source", "future")
 
-libraryDependencies += "dev.zio" %% "zio" % "1.0.9"
+lazy val dependencies = Seq(
+  libraryDependencies ++= Seq(
+    "dev.zio" %% "zio" % "1.0.9"
+  ),
+)
+
+lazy val hello = (project in file("."))
+.settings(name := "zio-world")
+.settings(dependencies)

@@ -9,6 +9,8 @@ object Main2 extends scala.App :
     //name <- console.getStrLn
     name <- ZIO.succeed("Carlos").debug(trace)
     _ <- console.putStrLn(s"Hello, $name!").repeatN(1)
+    //_ <- ZIO.fail(sys.error("boom"))
+    //_<- ZIO.effect(throw RuntimeException("boom"))
     _ <- console.putStrLn("-" * 100)
   yield ()
 

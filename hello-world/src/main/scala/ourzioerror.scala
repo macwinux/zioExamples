@@ -24,14 +24,19 @@ object ourzioerror:
       
         zErrorOrB.thunk()
       }
+
+    def mapError[E2](h: E => E2): ZIO[E2,A] = ZIO { () =>
+      val errorOrA = thunk()
+      errorOrA match
+        case Right(a) => Right(a)
+        case Left(e) => Left(h(e))
+    }
   end ZIO
 
   object ZIO:
     def succeed[A](a: => A): ZIO[Nothing, A] = ZIO(() => Right(a))
     def fail[E](e: => E): ZIO[E, Nothing] = ZIO(() => Left(e))
-    def effect[A](a: => A): ZIO[Throwable, A] = ZIO{() => try Right(a)
-      catch case ex => Left(ex)
-      }
+    def effect[A](a: => A): ZIO[Throwable, A] = ZIO(() => try Right(a) catch case ex => Left(ex))
 
   object console:
     def putStrLn(line: => String) =
